@@ -13,7 +13,7 @@ const Card = (props) => {
 const CardList = (props) => {
     return (
         <div>
-            {props.cards.map(card => <Card {...card}/>)}
+            {props.cards.map(card => <Card key={card.id} {...card}/>)}
         </div>
     );
 };
@@ -29,7 +29,7 @@ class Form extends React.Component {
         console.log('Event: from Submit', this.state.userName);
         axios.get(`https://api.github.com/users/${this.state.userName}`)
                 .then(resp => {
-                    this.props.onSubmit(resp.data);
+                    this.props.onAddCard(resp.data);
                     this.setState({userName: ''});
                 });
     };
@@ -62,7 +62,7 @@ class App extends React.Component {
     render () {
         return (
             <div>
-                <Form onSubmit={this.addNewCard} />
+                <Form onAddCard={this.addNewCard} />
                 <CardList cards={this.state.cards}/>
             </div>
         );

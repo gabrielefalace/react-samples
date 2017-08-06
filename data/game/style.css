@@ -1,0 +1,27 @@
+.fa-star {
+    margin: 0.5em;
+    font-size: 24px;
+}
+
+span {
+    display: inline-block;
+    margin: 0.3em;
+    text-align: center;
+    background-color: #CCC;
+    width: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #EEE;
+    color: #DDD;
+    cursor: not-allowed;
+}
+
+
+.used {
+    background-color: #ADA;
+    color: #9B9;
+    cursor: not-allowed;
+}
