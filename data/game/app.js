@@ -21,7 +21,13 @@ const Button = (props) => {
             break;
     }
     return (
-        <div className="col-2"> {button} </div>
+        <div className="col-2 text-center"> 
+            {button}
+            <br /> <br />
+            <button className="btn btn-warning btn-sm" onClick={props.redraw} disabled={props.redraws === 0}>
+                <i className="fa fa-refresh"></i> {props.redraws}
+            </button> 
+        </div>
     );
 };
 
@@ -68,6 +74,7 @@ class Game extends React.Component {
         selectedNumbers: [],
         randomNumberOfStars: 1 + Math.floor(Math.random()*9),
         usedNumbers: [],
+        redraws: 5,
         isAnswerCorrect: null, 
     };
 
@@ -97,8 +104,17 @@ class Game extends React.Component {
             randomNumberOfStars: 1 + Math.floor(Math.random()*9),
         }));
     };
+    redraw = () => {
+        if (this.state.redraws === 0) { return; }
+        this.setState(prevState => ({
+            randomNumberOfStars: 1 + Math.floor(Math.random()*9),            
+            isAnswerCorrect: null,            
+            selectedNumbers: [],
+            redraws: prevState.redraws - 1,
+        }));
+    };
     render() {
-        const {randomNumberOfStars, selectedNumbers, isAnswerCorrect, usedNumbers} = this.state;
+        const {randomNumberOfStars, selectedNumbers, isAnswerCorrect, usedNumbers, redraws} = this.state;
         return (
             <div className="container">
                 <h3> Play Nine </h3> 
@@ -108,7 +124,9 @@ class Game extends React.Component {
                     <Button selectedNumbers={selectedNumbers}
                             checkAnswer={this.checkAnswer}
                             isAnswerCorrect={isAnswerCorrect}
-                            acceptAnswer={this.acceptAnswer}/>
+                            acceptAnswer={this.acceptAnswer}
+                            redraw={this.redraw}
+                            redraws={redraws}/>
                     
                     <Answer selectedNumbers={selectedNumbers} 
                             undoSelection={this.undoSelection}/>
