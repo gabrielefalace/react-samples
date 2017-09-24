@@ -10,7 +10,8 @@ const Button = (props) => {
     let button;
     switch (props.isAnswerCorrect) {
         case true:
-            button = <button className="btn btn-success"> <i className="fa fa-check"></i> </button>;
+            button = <button className="btn btn-success" onClick={props.acceptAnswer}> 
+                <i className="fa fa-check"></i> </button>;
             break;
         case false:
             button = <button className="btn btn-danger"> <i className="fa fa-times"></i> </button>;
@@ -39,10 +40,13 @@ const Answer = (props) => {
 
 const Numbers = (props) => {
     const getClassName = (number) => {
+        if(props.usedNumbers.indexOf(number) >= 0) {
+            return 'used';
+        }
         if(props.selectedNumbers.indexOf(number) >= 0) {
             return 'selected';
         }
-    }
+    };
     return (
         <div className="card text-center">
             <div>
@@ -63,6 +67,7 @@ class Game extends React.Component {
     state = {
         selectedNumbers: [],
         randomNumberOfStars: 1 + Math.floor(Math.random()*9),
+        usedNumbers: [],
         isAnswerCorrect: null, 
     };
 
@@ -84,8 +89,16 @@ class Game extends React.Component {
             isAnswerCorrect: prevState.randomNumberOfStars === prevState.selectedNumbers.reduce((acc, n) => acc+n, 0)
         }));
     };
+    acceptAnswer = () => {
+        this.setState(prevState => ({
+            usedNumbers: prevState.usedNumbers.push(prevState.selectedNumbers),
+            selectedNumbers: [],
+            isAnswerCorrect:  null, 
+            randomNumberOfStars: 1 + Math.floor(Math.random()*9),
+        }));
+    };
     render() {
-        const {randomNumberOfStars, selectedNumbers, isAnswerCorrect} = this.state;
+        const {randomNumberOfStars, selectedNumbers, isAnswerCorrect, usedNumbers} = this.state;
         return (
             <div className="container">
                 <h3> Play Nine </h3> 
@@ -94,14 +107,16 @@ class Game extends React.Component {
                     <Stars numberOfStars={randomNumberOfStars}/>
                     <Button selectedNumbers={selectedNumbers}
                             checkAnswer={this.checkAnswer}
-                            isAnswerCorrect={isAnswerCorrect}/>
+                            isAnswerCorrect={isAnswerCorrect}
+                            acceptAnswer={this.acceptAnswer}/>
                     
                     <Answer selectedNumbers={selectedNumbers} 
                             undoSelection={this.undoSelection}/>
                 </div>
                 <br />
                 <Numbers selectedNumbers={selectedNumbers} 
-                         selectNumber={this.selectNumber}/>
+                         selectNumber={this.selectNumber}
+                         usedNumbers={usedNumbers}/>
             </div>
         );
     }
