@@ -204,3 +204,10 @@ class App extends React.Component {
 
 
 ReactDOM.render(<App />, mountNode);
+//challange add play timer with a timeout that ends the game with Game over and reset the game
+//hints here: https://edgecoders.com/learning-react-js-is-easier-than-you-think-fbd6dc4d935a
+// add point concept based on how fast you win and how many redraws u used, store players info and points to create a leader
+//board widget for all players
+
+// REACT with REST API -> see GraphQL
+// learn node.js it will be used to compile React app, and is easiest option to render server-side HTML from the React app
