@@ -61,15 +61,13 @@ Numbers.list =  _.range(1, 10);
 
 class Game extends React.Component {
     state = {
-        selectedNumbers: new Array(),
+        selectedNumbers: [],
         randomNumberOfStars: 1 + Math.floor(Math.random()*9),
-        isAnswerCorrect: null
+        isAnswerCorrect: null, 
     };
 
     selectNumber = (clickedNumber) => {
-        if(this.state.selectedNumbers.indexOf(clickedNumber) >= 0) {
-            return;
-        }
+        if(this.state.selectedNumbers.indexOf(clickedNumber) >= 0) { return; }
         this.setState(prevState => ({
             isAnswerCorrect: null,
             selectedNumbers: prevState.selectedNumbers.push(clickedNumber)
@@ -96,6 +94,7 @@ class Game extends React.Component {
                     <Button selectedNumbers={this.state.selectedNumbers}
                             checkAnswer={this.checkAnswer}
                             isAnswerCorrect={this.state.isAnswerCorrect}/>
+                    
                     <Answer selectedNumbers={this.state.selectedNumbers} 
                             undoSelection={this.undoSelection}/>
                 </div>
